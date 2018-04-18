@@ -45,6 +45,8 @@ pertusis_df['2014_sgn'] = np.sign(pertusis_df['2014_diff'] - thrs)
 concat = pd.merge(pertusis_df, infant_df, left_on='county', right_on='COUNTY')
 # Delete new county data so we only have one
 concat = concat.drop(['COUNTY'], axis=1)
+# Also drop California, as it is not a county
+concat = concat.drop('CALIFORNIA')
 # Display part of the data to see what's up
 # show_more_cols_head(concat)
 
@@ -58,7 +60,7 @@ y = np.ravel(concat['2014_sgn'].as_matrix())
 # printX
 
 # Create SVM model
-svm_model = sklearn.svm.SVC(kernel='poly', degree=3)
+svm_model = sklearn.svm.SVC(kernel='rbf', degree=3)
 
 # Choose number of folds for kfolds:
 n_fld = 5
